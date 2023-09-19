@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class NumberAnalyzer {
     public static void main(String[] args) {
@@ -40,18 +38,21 @@ public class NumberAnalyzer {
     private List<String> getPairsThatSumToTargetValue(List<Integer> numbers,
                                                       int targetSum) {
         List<String> pairs = new ArrayList<>();
+        Set<Integer> numbersSet = new HashSet<>();
 
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = i; j < numbers.size(); j++) {
-                if (numbers.get(i) + numbers.get(j) == targetSum) {
-                    int smallerNumber = Math.min(numbers.get(i), numbers.get(j));
-                    int largerNumber = Math.max(numbers.get(i), numbers.get(j));
-                    pairs.add(smallerNumber + " " + largerNumber);
-                }
+        for (int num : numbers) {
+            int requiredNumber = targetSum - num;
+            if (numbersSet.contains(requiredNumber)) {
+                int smallerNumber = Math.min(num, requiredNumber);
+                int largerNumber = Math.max(num, requiredNumber);
+                pairs.add(smallerNumber + " " + largerNumber);
             }
+            numbersSet.add(num);
         }
+
         return pairs;
     }
+
 
     private void printSortedPairs(List<String> pairs) {
         pairs.stream()
